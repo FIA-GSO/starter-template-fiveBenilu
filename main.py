@@ -1,5 +1,6 @@
 import tkinter as tk
 import ttkbootstrap as ttk
+from tkinter import messagebox
 import pyautogui
 import time
 import threading
@@ -15,7 +16,13 @@ def mouse_move():
     while continue_flag:
         mouse_checked = mouse_check_var.get()
         keyboard_checked = keyboard_check_var.get()
-        print(str(mouse_checked) + " " + str(keyboard_checked))
+        if not mouse_checked and not keyboard_checked:
+            status_label.config(text="Status: Stopped", foreground='red')
+            stop_button.pack_forget()
+            start_button.pack(pady=10, ipadx=20, ipady=10)
+            messagebox.showinfo("Information","Please select at least one checkbox")
+            continue_flag = False
+            return
         if(mouse_checked):
             x, y = pyautogui.position()
             distance = int(distance_slider.get())  # Convert the slider value to an integer
